@@ -46,7 +46,7 @@ function Cell (options) {
     ].filter(cell => cell != null)
   }
   this.processClick = function () {
-    if (!_self.clear) {
+    if (!_self.clear && !_self.board.completed) {
       if (_self.mine) {
         _self.clear = true
         _self.element.className += ' mine'
@@ -75,6 +75,7 @@ function Cell (options) {
 function Board (gridWidth, gridHeight) {
   this.gridWidth = gridWidth || 24
   this.gridHeight = gridHeight || 24
+  this.completed = false
   this.cells = []
 
   this.init = function () {
@@ -92,6 +93,7 @@ function Board (gridWidth, gridHeight) {
 
   this.draw = function () {
     if (_debug) console.log('drawCells start')
+    document.getElementById('container').innerHTML = ''
     _self.cells.map(function (cell) {
       document.getElementById('container').appendChild(cell.element)
       if (_debug) console.log(cell)
@@ -130,9 +132,9 @@ function Board (gridWidth, gridHeight) {
     if (!success) {
       console.log('lost')
       var audio = new Audio('sounds/price-is-right-losing-horn.mp3')
-      audio.volume(25)
       audio.play()
     }
+    _self.completed = true
   }
 
   let _self = this

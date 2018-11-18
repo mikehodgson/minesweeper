@@ -79,3 +79,15 @@ body, html {
 .severity3, .severity4, .severity5, .severity6, .severity7, .severity8 {
     color: #992222;
 }
+
+.refresh-button {
+    float: none;
+    position: relative;
+    text-transform: uppercase;
+    font-family:  sans-serif;
+    padding: 1vh;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1vh;
+    display: block;
+}
