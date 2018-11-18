@@ -33,6 +33,7 @@ body, html {
     height: auto;
     text-align: center;
     font-size: 0px;
+    -webkit-user-select: none;
 }
 
 .grid-container .cell:hover {
