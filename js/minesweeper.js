@@ -51,6 +51,7 @@ function Cell (options) {
         _self.clear = true
         _self.element.className += ' mine'
         _self.element.innerHTML = '<span class="text">💣</span>'
+        _self.board.gameOver(false)
       } else {
         _self.clear = true
         _self.minesNearby = _self.calculateMinesNearby()
@@ -123,6 +124,15 @@ function Board (gridWidth, gridHeight) {
       return null
     }
     return _self.cells.filter(cell => cell.row === row && cell.column === column)[0]
+  }
+
+  this.gameOver = function (success) {
+    if (!success) {
+      console.log('lost')
+      var audio = new Audio('sounds/price-is-right-losing-horn.mp3')
+      audio.volume(25)
+      audio.play()
+    }
   }
 
   let _self = this
