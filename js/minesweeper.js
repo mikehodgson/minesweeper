@@ -132,7 +132,7 @@ function Board (gridWidth, gridHeight) {
 
 window.onload = function () {
   if (_debug) console.log('window.onload start')
-  let board = new Board(16, 16)
+  let board = new Board(12, 12)
   board.draw()
   if (_debug) console.log(board)
   if (_debug) console.log('window.onload end')
