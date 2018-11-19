@@ -89,5 +89,10 @@ body, html {
     margin-left: auto;
     margin-right: auto;
     margin-top: 1vh;
-    display: block;
+    display: inline-block;
+}
+
+.refresh-button-container {
+    width: 100%;
+    text-align: center;
 }
