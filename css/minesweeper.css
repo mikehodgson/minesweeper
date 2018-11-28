@@ -15,19 +15,18 @@ body, html {
     margin-right: auto;
     float: none;
     grid-template-columns: repeat(12, 1fr);
-    border-bottom: 2px solid rgba(0,0,0,0.7);
-    border-right: 2px solid rgba(0,0,0,0.7);
-    border-left: 2px solid rgba(0,0,0,0.3);
-    border-top: 2px solid rgba(0,0,0,0.3);
+    border: 4px solid #999;
+    border-bottom-width: 3px;
     font-size: 0px;
+    background-color: #999;
 }
 
 .grid-container .cell {
     position: relative;
-    border-bottom: 2px solid rgba(0,0,0,0.7);
-    border-right: 2px solid rgba(0,0,0,0.7);
-    border-left: 2px solid rgba(0,0,0,0.3);
-    border-top: 2px solid rgba(0,0,0,0.3);
+    border-bottom: 4px solid #999;
+    border-right: 4px solid #999;
+    border-left: 4px solid #fff;
+    border-top: 4px solid #fff;
     background-color: #dddddd;
     width: auto;
     height: auto;
@@ -46,13 +45,16 @@ body, html {
 
 .grid-container .cell.mine {
     background-color: red;
+    border-color: rgba(0,0,0,0.3);
+    border-width: 1px;
 }
 
 .grid-container .cell.flag {
     background-color: white;
 }
 .grid-container .cell.clear {
-    border-color: rgba(0,0,0,0);
+    border-color: #999;
+    border-width: 1px;
 }
 
 .cell .text {

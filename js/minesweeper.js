@@ -50,7 +50,7 @@ function Cell (options) {
       if (_self.mine) {
         _self.clear = true
         _self.element.className += ' mine'
-        _self.element.innerHTML = '<span class="text">💣</span>'
+        _self.element.innerHTML = '<span class="text">💩</span>'
         _self.board.gameOver(false)
       } else {
         _self.clear = true
