@@ -1,6 +1,6 @@
 import style from '../css/minesweeper.css'
 
-var _debug = true
+var _debug = false
 
 function Cell (options) {
   this.minesNearby = 0
