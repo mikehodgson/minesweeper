@@ -1,3 +1,5 @@
+import style from '../css/minesweeper.css'
+
 var _debug = true
 
 function Cell (options) {
