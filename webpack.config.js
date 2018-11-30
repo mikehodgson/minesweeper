@@ -1,9 +1,10 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const path = require('path')
 
 module.exports = {
   entry: './src/js/minesweeper.js',
   output: {
-    path: __dirname + '/dist/',
+    path: path.join(__dirname, '/dist/'),
     filename: 'js/bundle.js'
   },
   watch: true,
