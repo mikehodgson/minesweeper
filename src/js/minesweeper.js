@@ -2,112 +2,111 @@ import style from '../css/minesweeper.css'
 
 var _debug = false
 
-function Cell (options) {
-  this.minesNearby = 0
-  this.mine = options.mine || false
-  this.flag = options.flag || false
-  this.clear = options.clear || false
-  this.row = options.row || 0
-  this.column = options.column || 0
-  this.element = options.element || document.createElement('div')
-  this.board = options.board || null
+let Cell = class {
+  constructor (options) {
+    this.minesNearby = 0
+    this.mine = options.mine || false
+    this.flag = options.flag || false
+    this.clear = options.clear || false
+    this.row = options.row || 0
+    this.column = options.column || 0
+    this.element = options.element || document.createElement('div')
+    this.board = options.board || null
 
-  this.element.className = 'cell'
-  this.element.onclick = function () {
-    if (_debug) console.log('cell click')
-    _self.processClick()
-    if (_debug) console.log(_self)
-    return false
-  }
-  this.element.oncontextmenu = function () {
-    if (!_self.clear) {
-      _self.clear = true
-      _self.flag = true
-      _self.element.innerHTML = '<span class="text">🏳️</span>'
+    this.element.className = 'cell'
+    this.element.onclick = () => {
+      if (_debug) console.log('cell click')
+      this.processClick()
+      if (_debug) console.log(this)
+      return false
     }
-    return false
+    this.element.oncontextmenu = () => {
+      if (!this.clear) {
+        this.clear = true
+        this.flag = true
+        this.element.innerHTML = '<span class="text">🏳️</span>'
+      }
+      return false
+    }
   }
-  this.clearNearbyCells = function () {
-    _self.getNearbyCells().filter(cell => cell.clear !== true).forEach(cell =>
+  clearNearbyCells () {
+    this.getNearbyCells().filter(cell => cell.clear !== true).forEach(cell =>
       cell.processClick()
     )
   }
-  this.calculateMinesNearby = function () {
-    return _self.getNearbyCells().filter(cell => cell.mine).length
+  calculateMinesNearby () {
+    return this.getNearbyCells().filter(cell => cell.mine).length
   }
-  this.getNearbyCells = function () {
+  getNearbyCells () {
     return [
-      _self.board.getCell(_self.row - 1, _self.column),
-      _self.board.getCell(_self.row - 1, _self.column + 1),
-      _self.board.getCell(_self.row, _self.column + 1),
-      _self.board.getCell(_self.row + 1, _self.column + 1),
-      _self.board.getCell(_self.row + 1, _self.column),
-      _self.board.getCell(_self.row + 1, _self.column - 1),
-      _self.board.getCell(_self.row, _self.column - 1),
-      _self.board.getCell(_self.row - 1, _self.column - 1)
+      this.board.getCell(this.row - 1, this.column),
+      this.board.getCell(this.row - 1, this.column + 1),
+      this.board.getCell(this.row, this.column + 1),
+      this.board.getCell(this.row + 1, this.column + 1),
+      this.board.getCell(this.row + 1, this.column),
+      this.board.getCell(this.row + 1, this.column - 1),
+      this.board.getCell(this.row, this.column - 1),
+      this.board.getCell(this.row - 1, this.column - 1)
     ].filter(cell => cell != null)
   }
-  this.processClick = function () {
-    if (!_self.clear && !_self.board.completed) {
-      if (_self.mine) {
-        _self.clear = true
-        _self.element.className += ' mine'
-        _self.element.innerHTML = '<span class="text">💩</span>'
-        _self.board.gameOver(false)
+  processClick () {
+    if (!this.clear && !this.board.completed) {
+      if (this.mine) {
+        this.clear = true
+        this.element.className += ' mine'
+        this.element.innerHTML = '<span class="text">💩</span>'
+        this.board.gameOver(false)
       } else {
-        _self.clear = true
-        _self.minesNearby = _self.calculateMinesNearby()
-        if (_self.minesNearby === 0) {
-          _self.clearNearbyCells()
+        this.clear = true
+        this.minesNearby = this.calculateMinesNearby()
+        if (this.minesNearby === 0) {
+          this.clearNearbyCells()
         } else {
-          _self.element.className += ' severity' + _self.minesNearby
+          this.element.className += ' severity' + this.minesNearby
         }
-        _self.element.className += ' clear'
-        if (_self.minesNearby > 0) {
-          _self.element.innerHTML = '<span class="text">' + _self.minesNearby + '</span>'
+        this.element.className += ' clear'
+        if (this.minesNearby > 0) {
+          this.element.innerHTML = '<span class="text">' + this.minesNearby + '</span>'
         }
       }
     }
-    if (_debug) console.log(_self)
+    if (_debug) console.log(this)
   }
-
-  let _self = this
 }
 
-function Board (gridWidth, gridHeight) {
-  this.gridWidth = gridWidth || 24
-  this.gridHeight = gridHeight || 24
-  this.completed = false
-  this.cells = []
-
-  this.init = function () {
-    if (_debug) console.log('init start')
+let Board = class {
+  constructor (gridWidth, gridHeight) {
+    if (_debug) console.log('constructor start')
+    this.gridWidth = gridWidth || 24
+    this.gridHeight = gridHeight || 24
+    this.completed = false
+    this.cells = []
     if (_debug) console.log({ gridHeight, gridWidth })
 
     for (let r = 1; r <= gridHeight; r++) {
       for (let c = 1; c <= gridWidth; c++) {
-        _self.cells.push(new Cell({ row: r, column: c, element: document.createElement('div'), board: _self }))
+        this.cells.push(new Cell({ row: r, column: c, element: document.createElement('div'), board: this }))
       }
     }
     this.setMines()
-    if (_debug) console.log('init end')
+    if (_debug) console.log('constructor end')
   }
 
-  this.draw = function () {
-    if (_debug) console.log('drawCells start')
+  draw () {
+    if (_debug) console.log('draw start')
     document.getElementById('container').innerHTML = ''
-    _self.cells.map(function (cell) {
+    this.cells.map(function (cell) {
       document.getElementById('container').appendChild(cell.element)
       if (_debug) console.log(cell)
     })
-    if (_debug) console.log('drawCells end')
+    if (_debug) console.log('draw end')
   }
 
-  this.setMines = function () {
+  setMines () {
     let counter = 0
     if (_debug) console.log('setMines start')
     while (counter < 20) {
-      let item = _self.cells[Math.floor(Math.random() * _self.cells.length)]
+      let item = this.cells[Math.floor(Math.random() * this.cells.length)]
       if (item.mine === false) {
         item.mine = true
         counter++
@@ -117,31 +116,27 @@ function Board (gridWidth, gridHeight) {
     if (_debug) console.log('setMines end')
   }
 
-  this.getMines = function () {
-    return _self.cells.filter(function (cell) {
+  getMines () {
+    return this.cells.filter(function (cell) {
       return (cell.mine === true)
     })
   }
 
-  this.getCell = function (row, column) {
-    if (row > _self.gridHeight || row < 1 || column > _self.gridWidth || column < 1) {
+  getCell (row, column) {
+    if (row > this.gridHeight || row < 1 || column > this.gridWidth || column < 1) {
       return null
     }
-    return _self.cells.filter(cell => cell.row === row && cell.column === column)[0]
+    return this.cells.filter(cell => cell.row === row && cell.column === column)[0]
   }
 
-  this.gameOver = function (success) {
+  gameOver (success) {
     if (!success) {
       console.log('lost')
       var audio = new Audio('sounds/price-is-right-losing-horn.mp3')
       audio.play()
     }
-    _self.completed = true
+    this.completed = true
   }
-
-  let _self = this
-
-  this.init()
 }
 
 window.onload = function () {
