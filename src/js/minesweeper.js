@@ -2,10 +2,11 @@
 
 import style from '../css/minesweeper.css'
 
-let _debug = false
+const _debug = false
 
 let Cell = class {
   constructor (options) {
+    if (_debug) console.log('Cell constructor start')
     this.minesNearby = 0
     this.mine = options.mine || false
     this.flag = options.flag || false
@@ -17,29 +18,30 @@ let Cell = class {
 
     this.element.className = 'cell'
     this.element.onclick = () => {
-      if (_debug) console.log('cell click')
-      this.processClick()
+      if (_debug) console.log('Cell left click')
+      this.processLeftClick()
       if (_debug) console.log(this)
       return false
     }
     this.element.oncontextmenu = () => {
-      if (!this.clear) {
-        this.clear = true
-        this.flag = true
-        this.element.innerHTML = '<span class="text">🏳️</span>'
-      }
+      if (_debug) console.log('Cell right click')
+      this.processRightClick()
       return false
     }
+    if (_debug) console.log('Cell constructor end')
   }
   clearNearbyCells () {
+    /* Clear any non-mine cells connected to this one */
     this.getNearbyCells().filter(cell => cell.clear !== true).forEach(cell =>
-      cell.processClick()
+      cell.processLeftClick()
     )
   }
   calculateMinesNearby () {
+    /* Get the number of mines surrounding this cell */
     return this.getNearbyCells().filter(cell => cell.mine).length
   }
   getNearbyCells () {
+    /* Grab an array of all cells surrounding this cell */
     return [
       this.board.getCell(this.row - 1, this.column),
       this.board.getCell(this.row - 1, this.column + 1),
@@ -51,7 +53,8 @@ let Cell = class {
       this.board.getCell(this.row - 1, this.column - 1)
     ].filter(cell => cell != null)
   }
-  processClick () {
+  processLeftClick () {
+    /* Process a left click event on this cell */
     if (!this.clear && !this.board.completed) {
       if (this.mine) {
         this.clear = true
@@ -74,24 +77,32 @@ let Cell = class {
     }
     if (_debug) console.log(this)
   }
+  processRightClick () {
+    /* Process a right click event on this cell */
+    if (!this.clear && !this.board.completed) {
+      this.clear = true
+      this.flag = true
+      this.element.innerHTML = '<span class="text">🏳️</span>'
+    }
+  }
 }
 
 let Board = class {
   constructor (gridWidth, gridHeight) {
-    if (_debug) console.log('constructor start')
+    if (_debug) console.log('Board constructor start')
     this.gridWidth = gridWidth || 24
     this.gridHeight = gridHeight || 24
     this.completed = false
     this.cells = []
     if (_debug) console.log({ gridHeight, gridWidth })
 
-    for (let r = 1; r <= gridHeight; r++) {
-      for (let c = 1; c <= gridWidth; c++) {
+    for (let r = 1; r <= gridHeight; r += 1) {
+      for (let c = 1; c <= gridWidth; c += 1) {
         this.cells.push(new Cell({ row: r, column: c, element: document.createElement('div'), board: this }))
       }
     }
     this.setMines()
-    if (_debug) console.log('constructor end')
+    if (_debug) console.log('Board constructor end')
   }
 
   draw () {
