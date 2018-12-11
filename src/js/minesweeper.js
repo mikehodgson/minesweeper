@@ -1,6 +1,8 @@
+/* global Audio */
+
 import style from '../css/minesweeper.css'
 
-var _debug = false
+let _debug = false
 
 let Cell = class {
   constructor (options) {
