@@ -1,6 +1,6 @@
 /* global Audio */
 
-import style from '../css/minesweeper.css'
+import style from '../css/minesweeper.less'
 
 const _debug = false
 
@@ -79,10 +79,14 @@ let Cell = class {
   }
   processRightClick () {
     /* Process a right click event on this cell */
-    if (!this.clear && !this.board.completed) {
-      this.clear = true
-      this.flag = true
-      this.element.innerHTML = '<span class="text">🏳️</span>'
+    if (!this.board.completed) {
+      this.clear = !this.clear
+      this.flag = !this.flag
+      if (this.flag) {
+        this.element.innerHTML = '<span class="text">🏳️</span>'
+      } else {
+        this.element.innerHTML = ''
+      }
     }
   }
 }
