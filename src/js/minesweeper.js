@@ -55,7 +55,7 @@ let Cell = class {
   }
   processLeftClick () {
     /* Process a left click event on this cell */
-    if (!this.clear && !this.board.completed) {
+    if (!this.clear && !this.board.completed && !this.flag) {
       if (this.mine) {
         this.clear = true
         this.element.className += ' mine'
@@ -79,8 +79,7 @@ let Cell = class {
   }
   processRightClick () {
     /* Process a right click event on this cell */
-    if (!this.board.completed) {
-      this.clear = !this.clear
+    if (!this.board.completed && !this.clear) {
       this.flag = !this.flag
       if (this.flag) {
         this.element.innerHTML = '<span class="text">🏳️</span>'
