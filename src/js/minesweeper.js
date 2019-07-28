@@ -2,11 +2,11 @@
 
 import style from '../css/minesweeper.less'
 
-const _debug = false
+const _debug = true
 
 let Cell = class {
   constructor (options) {
-    if (_debug) console.log('Cell constructor start')
+    if (_debug) console.info('Cell constructor start')
     this.minesNearby = 0
     this.mine = options.mine || false
     this.flag = options.flag || false
@@ -18,17 +18,17 @@ let Cell = class {
 
     this.element.className = 'cell'
     this.element.onclick = () => {
-      if (_debug) console.log('Cell left click')
+      if (_debug) console.info('Cell left click')
       this.processLeftClick()
-      if (_debug) console.log(this)
+      if (_debug) console.debug(this)
       return false
     }
     this.element.oncontextmenu = () => {
-      if (_debug) console.log('Cell right click')
+      if (_debug) console.info('Cell right click')
       this.processRightClick()
       return false
     }
-    if (_debug) console.log('Cell constructor end')
+    if (_debug) console.info('Cell constructor end')
   }
   clearNearbyCells () {
     /* Clear any non-mine cells connected to this one */
@@ -75,7 +75,7 @@ let Cell = class {
         }
       }
     }
-    if (_debug) console.log(this)
+    if (_debug) console.debug(this)
   }
   processRightClick () {
     /* Process a right click event on this cell */
@@ -92,12 +92,12 @@ let Cell = class {
 
 let Board = class {
   constructor (gridWidth, gridHeight) {
-    if (_debug) console.log('Board constructor start')
+    if (_debug) console.info('Board constructor start')
     this.gridWidth = gridWidth || 24
     this.gridHeight = gridHeight || 24
     this.completed = false
     this.cells = []
-    if (_debug) console.log({ gridHeight, gridWidth })
+    if (_debug) console.debug({ gridHeight, gridWidth })
 
     for (let r = 1; r <= gridHeight; r += 1) {
       for (let c = 1; c <= gridWidth; c += 1) {
@@ -105,31 +105,31 @@ let Board = class {
       }
     }
     this.setMines()
-    if (_debug) console.log('Board constructor end')
+    if (_debug) console.info('Board constructor end')
   }
 
   draw () {
-    if (_debug) console.log('draw start')
+    if (_debug) console.info('draw start')
     document.getElementById('container').innerHTML = ''
     this.cells.map(function (cell) {
       document.getElementById('container').appendChild(cell.element)
-      if (_debug) console.log(cell)
+      if (_debug) console.debug(cell)
     })
-    if (_debug) console.log('draw end')
+    if (_debug) console.info('draw end')
   }
 
   setMines () {
     let counter = 0
-    if (_debug) console.log('setMines start')
+    if (_debug) console.info('setMines start')
     while (counter < 20) {
       let item = this.cells[Math.floor(Math.random() * this.cells.length)]
       if (item.mine === false) {
         item.mine = true
         counter++
-        console.log(item)
+        console.debug(item)
       }
     }
-    if (_debug) console.log('setMines end')
+    if (_debug) console.info('setMines end')
   }
 
   getMines () {
@@ -147,18 +147,20 @@ let Board = class {
 
   gameOver (success) {
     if (!success) {
-      console.log('lost')
+      console.info('lost')
       var audio = new Audio('sounds/price-is-right-losing-horn.mp3')
       audio.play()
+    } else {
+      console.info('won')
     }
     this.completed = true
   }
 }
 
 window.onload = function () {
-  if (_debug) console.log('window.onload start')
+  if (_debug) console.info('window.onload start')
   let board = new Board(12, 12)
   board.draw()
-  if (_debug) console.log(board)
-  if (_debug) console.log('window.onload end')
+  if (_debug) console.debug(board)
+  if (_debug) console.info('window.onload end')
 }
