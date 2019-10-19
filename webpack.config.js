@@ -16,12 +16,12 @@ module.exports = {
   },
   module: {
     rules: [{
-      test: /\.less$/,
+      test: /\.less$/i,
       use: [
         { loader: 'style-loader' },
         { loader: 'css-loader' },
         { loader: 'less-loader' }
-      ]
+      ],
     }, {
       test: /\.tsx?$/,
       use: 'ts-loader',
