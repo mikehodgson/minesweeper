@@ -1,11 +1,9 @@
-/* global Audio */
-
 const style = require('./css/minesweeper.less')
 
 const _debug = true
 
 class Cell {
-    minesNearby : number;
+    private minesNearby : number;
 
     constructor(public mine : boolean = false, public flag : boolean = false, public clear : boolean = false, public row : number = 0, public column : number = 0, public element : HTMLDivElement = document.createElement('div'), public board : Board = null) {
         if (_debug) console.info('Cell constructor start')
@@ -25,17 +23,17 @@ class Cell {
         }
         if (_debug) console.info('Cell constructor end')
     }
-    clearNearbyCells() {
+    clearNearbyCells():void {
         /* Clear any non-mine cells connected to this one */
         this.getNearbyCells().filter(cell => cell.clear !== true).forEach(cell =>
             cell.processLeftClick()
         )
     }
-    calculateMinesNearby() {
+    calculateMinesNearby(): number {
         /* Get the number of mines surrounding this cell */
         return this.getNearbyCells().filter(cell => cell.mine).length
     }
-    getNearbyCells() {
+    getNearbyCells(): Array<Cell> {
         /* Grab an array of all cells surrounding this cell */
         return [
             this.board.getCell(this.row - 1, this.column),
@@ -48,7 +46,7 @@ class Cell {
             this.board.getCell(this.row - 1, this.column - 1)
         ].filter(cell => cell != null)
     }
-    processLeftClick() {
+    processLeftClick(): void {
         /* Process a left click event on this cell */
         if (!this.clear && !this.board.completed && !this.flag) {
             if (this.mine) {
@@ -72,7 +70,7 @@ class Cell {
         }
         if (_debug) console.debug(this)
     }
-    processRightClick() {
+    processRightClick(): void {
         /* Process a right click event on this cell */
         if (!this.board.completed && !this.clear) {
             this.flag = !this.flag
@@ -106,7 +104,7 @@ class Board {
         if (_debug) console.info('Board constructor end')
     }
 
-    async draw() {
+    draw(): void {
         if (_debug) console.info('draw start')
         document.getElementById('container').innerHTML = ''
         this.cells.map(function (cell) {
@@ -116,7 +114,7 @@ class Board {
         if (_debug) console.info('draw end')
     }
 
-    async setMines() {
+    setMines(): void {
         let counter = 0
         if (_debug) console.info('setMines start')
         while (counter < 20) {
@@ -130,20 +128,20 @@ class Board {
         if (_debug) console.info('setMines end')
     }
 
-    getMines() {
+    getMines(): Array<Cell> {
         return this.cells.filter(function (cell) {
             return (cell.mine === true)
         })
     }
 
-    getCell(row : number, column : number) {
+    getCell(row : number, column : number): Cell {
         if (row > this.gridHeight || row < 1 || column > this.gridWidth || column < 1) {
             return null
         }
         return this.cells.filter(cell => cell.row === row && cell.column === column)[0]
     }
 
-    gameOver(success : boolean) {
+    gameOver(success : boolean): void {
         if (!success) {
             console.info('lost')
             var audio = new Audio('sounds/price-is-right-losing-horn.mp3')
@@ -158,7 +156,7 @@ class Board {
 window.onload = async function () {
     if (_debug) console.info('window.onload start')
     let board = new Board(12, 12)
-    await board.draw()
+    board.draw()
     if (_debug) console.debug(board)
     if (_debug) console.info('window.onload end')
 }
