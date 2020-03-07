@@ -2,7 +2,7 @@
   "name": "minesweeper",
   "version": "1.0.0",
   "description": "minesweeper",
-  "main": "index.js",
+  "main": "index.ts",
   "repository": "github:mikehodgson/minesweeper",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
