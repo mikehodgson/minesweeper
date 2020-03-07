@@ -1,17 +1,18 @@
+/* eslint-disable no-console */
 import "./css/minesweeper.less";
 
-const _DEBUG = false;
+const _DEBUG: boolean = false;
 
 class Cell {
     private minesNearby: number;
 
     constructor(public mine: boolean = false,
-                public flag: boolean = false,
-                public clear: boolean = false,
-                public row: number = 0,
-                public column: number = 0,
-                public element: HTMLDivElement = document.createElement("div"),
-                public board: Board = null,
+        public flag: boolean = false,
+        public clear: boolean = false,
+        public row: number = 0,
+        public column: number = 0,
+        public element: HTMLDivElement = document.createElement("div"),
+        public board: Board = null,
     ) {
         if (_DEBUG) {
             console.info("Cell constructor start");
@@ -44,19 +45,19 @@ class Cell {
     }
 
     private clearNearbyCells(): void {
-        /* Clear any non-mine cells connected to this one */
+        /* clear any non-mine cells connected to this one */
         this.getNearbyCells().filter((cell) => cell.clear !== true).forEach((cell) =>
             cell.processLeftClick(),
         );
     }
 
     private calculateMinesNearby(): number {
-        /* Get the number of mines surrounding this cell */
+        /* get the number of mines surrounding this cell */
         return this.getNearbyCells().filter((cell) => cell.mine).length;
     }
 
     private getNearbyCells(): Cell[] {
-        /* Grab an array of all cells surrounding this cell */
+        /* grab an array of all cells surrounding this cell */
         return [
             this.board.getCell(this.row - 1, this.column),
             this.board.getCell(this.row - 1, this.column + 1),
@@ -70,12 +71,12 @@ class Cell {
     }
 
     private processLeftClick(): void {
-        /* Process a left click event on this cell */
+        /* process a left click event on this cell */
         if (!this.clear && !this.board.completed && !this.flag) {
             if (this.mine) {
                 this.clear = true;
                 this.element.className += " mine";
-                this.element.innerHTML = '<span class="text">&#x1F4A9;</span>';
+                this.element.innerHTML = "<span class=\"text\">&#x1F4A9;</span>";
                 this.board.gameOver(false);
             } else {
                 this.clear = true;
@@ -87,7 +88,7 @@ class Cell {
                 }
                 this.element.className += " clear";
                 if (this.minesNearby > 0) {
-                    this.element.innerHTML = '<span class="text">' + this.minesNearby + "</span>";
+                    this.element.innerHTML = "<span class=\"text\">" + this.minesNearby + "</span>";
                 }
             }
         }
@@ -97,14 +98,14 @@ class Cell {
     }
 
     private processRightClick(): void {
-        /* Process a right click event on this cell */
+        /* process a right click event on this cell */
         if (!this.board.completed && !this.clear) {
             this.flag = !this.flag;
             if (_DEBUG) {
                 console.log("flag: " + this.flag);
             }
             if (this.flag) {
-                this.element.innerHTML = '<span class="text">&#x1F3F3;&#xFE0F;</span>';
+                this.element.innerHTML = "<span class=\"text\">&#x1F3F3;&#xFE0F;</span>";
             } else {
                 this.element.innerHTML = "";
             }
@@ -116,7 +117,7 @@ class Board {
     public cells: Cell[];
     public completed: boolean;
 
-    constructor(public gridWidth: number, public gridHeight: number) {
+    constructor(public gridWidth: number, public gridHeight: number, public player: Player) {
         if (_DEBUG) {
             console.info("Board constructor start");
         }
@@ -124,12 +125,14 @@ class Board {
         this.gridHeight = gridHeight || 24;
         this.completed = false;
         this.cells = [];
+        this.player.score = 0;
+
         if (_DEBUG) {
             console.debug({ gridHeight, gridWidth });
         }
 
-        for (let r = 1; r <= gridHeight; r += 1) {
-            for (let c = 1; c <= gridWidth; c += 1) {
+        for (let r: number = 1; r <= gridHeight; r += 1) {
+            for (let c: number = 1; c <= gridWidth; c += 1) {
                 this.cells.push(new Cell(void 0, void 0, void 0, r, c, document.createElement("div"), this));
             }
         }
@@ -156,12 +159,12 @@ class Board {
     }
 
     public setMines(): void {
-        let counter = 0;
+        let counter: number = 0;
         if (_DEBUG) {
             console.info("setMines start");
         }
         while (counter < 20) {
-            const item = this.cells[Math.floor(Math.random() * this.cells.length)];
+            const item: Cell = this.cells[Math.floor(Math.random() * this.cells.length)];
             if (item.mine === false) {
                 item.mine = true;
                 counter++;
@@ -189,7 +192,7 @@ class Board {
     public gameOver(success: boolean): void {
         if (!success) {
             console.info("lost");
-            const audio = new Audio("sounds/price-is-right-losing-horn.mp3");
+            const audio: HTMLAudioElement = new Audio("sounds/price-is-right-losing-horn.mp3");
             audio.play();
         } else {
             console.info("won");
@@ -198,10 +201,30 @@ class Board {
     }
 }
 
+class Player {
+    public score: number;
+
+    constructor(public name: string) {
+        this.score = 0;
+    }
+}
+
+class Game {
+    public board: Board;
+    public player: Player;
+
+    constructor(private gridWidth: number, private gridHeight: number, private playerName: string) {
+        this.player = new Player(this.playerName);
+        this.board = new Board(this.gridWidth, this.gridHeight, this.player);
+        this.board.draw();
+        if (_DEBUG) {
+            console.debug(this.board);
+        }
+    }
+}
+
 window.onload = () => {
     if (_DEBUG) { console.info("window.onload start"); }
-    const board = new Board(12, 12);
-    board.draw();
-    if (_DEBUG) { console.debug(board); }
+    new Game(12, 12, "Unknown");
     if (_DEBUG) { console.info("window.onload end"); }
 };

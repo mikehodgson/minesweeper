@@ -1,11 +1,11 @@
 module.exports = function (api) {
-  api.cache(true)
+    api.cache(true);
 
-  const presets = ['es2015', { modules: false }]
+    const presets = ["es2015", { modules: false }];
 
-  const plugins = []
+    const plugins = [];
 
-  return {
-    presets, plugins
-  }
-}
+    return {
+        presets, plugins
+    };
+};
