@@ -19,4 +19,8 @@ This is a very basic minesweeper clone. You can play this code live at: https://
 
 ## Running
 
-1. Run `npm start`
+1. Run `npm run start`
+
+## Running Tests
+
+1. Run `npm run coverage`
