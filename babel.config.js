@@ -1,7 +1,7 @@
 module.exports = function (api) {
     api.cache(true);
 
-    const presets = ["es2015", { modules: false }];
+    const presets = ["@babel/preset-typescript", "@babel/preset-env"];
 
     const plugins = [];
 

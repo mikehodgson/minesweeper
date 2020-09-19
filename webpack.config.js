@@ -7,6 +7,10 @@ const path = require("path");
 
 module.exports = {
     mode: "production",
+    resolve: {
+        symlinks: false,
+        extensions: ['.ts', '.js', '.json']
+    },
     entry: {
         app: "./src/index.ts"
     },
