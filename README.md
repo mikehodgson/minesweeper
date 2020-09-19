@@ -1,6 +1,6 @@
 # minesweeper 
 
-[![mikehodgson](https://circleci.com/github/mikehodgson/minesweeper.svg?style=svg)](https://app.circleci.com/pipelines/github/mikehodgson/minesweeper)
+[![mikehodgson](https://circleci.com/gh/mikehodgson/minesweeper.svg?style=shield)](https://app.circleci.com/pipelines/github/mikehodgson/minesweeper)
 
 This is a very basic minesweeper clone. You can play this code live at: https://sweeper.games 
 
