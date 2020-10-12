@@ -98,53 +98,6 @@ module.exports = {
         "no-unused-expressions": "error",
         "no-unused-labels": "error",
         "radix": "error",
-        "spaced-comment": "error",
-        "@typescript-eslint/tslint/config": [
-            "error",
-            {
-                "rules": {
-                    "ban": [
-                        true,
-                        [
-                            "_",
-                            "extend"
-                        ],
-                        [
-                            "_",
-                            "isNull"
-                        ],
-                        [
-                            "_",
-                            "isDefined"
-                        ]
-                    ],
-                    "jsdoc-format": true,
-                    "label-undefined": true,
-                    "no-duplicate-key": true,
-                    "no-trailing-comma": true,
-                    "no-unreachable": true,
-                    "no-unused-variable": true,
-                    "one-line": [
-                        true,
-                        "check-open-brace",
-                        "check-catch",
-                        "check-else",
-                        "check-whitespace"
-                    ],
-                    "typedef": [
-                        true,
-                        "call-signature",
-                        "parameter",
-                        "property-declaration",
-                        "variable-declaration"
-                    ],
-                    "use-strict": [
-                        true,
-                        "check-module",
-                        "check-function"
-                    ]
-                }
-            }
-        ]
+        "spaced-comment": "error"
     }
 };
