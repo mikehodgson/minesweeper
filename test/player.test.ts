@@ -1,15 +1,16 @@
-import {expect} from "chai";
+import {assert, expect} from "chai";
 import {Player} from "../src/model/player";
+import "chai/register-should";
 import "mocha";
 
 describe("Player", () => {
     const player: Player = new Player("test");
 
-    it("score is equal to 0 to start", () => {
+    it("should have an initial score of 0", () => {
         expect(player.score).to.equal(0);
     });
 
-    it("name should be test", () => {
+    it("should have name equal to 'test'", () => {
         expect(player.name).to.equal("test");
     });
 });

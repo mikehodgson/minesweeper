@@ -1,6 +1,7 @@
-import { Board } from './board';
+import { Board } from "./board";
 
 export class Cell {
+    [Symbol.toStringTag]: "Cell";
     private minesNearby: number;
     public _DEBUG: boolean = false;
 
@@ -12,34 +13,18 @@ export class Cell {
         public element: HTMLDivElement = document.createElement("div"),
         public board: Board
     ) {
-        if (this._DEBUG) {
-            console.info("Cell constructor start");
-        }
         this.minesNearby = 0;
 
         this.element.className = "cell";
         this.element.onclick = () => {
-            if (this._DEBUG) {
-                console.info("Cell left click");
-            }
             this.processLeftClick();
-            if (this._DEBUG) {
-                console.debug(this);
-            }
             return false;
         };
 
         this.element.oncontextmenu = () => {
-            if (this._DEBUG) {
-                console.info("Cell right click");
-            }
             this.processRightClick();
             return false;
         };
-
-        if (this._DEBUG) {
-            console.info("Cell constructor end");
-        }
     }
 
     private clearNearbyCells(): void {
@@ -80,7 +65,7 @@ export class Cell {
                 this.clear = true;
                 this.minesNearby = this.calculateMinesNearby();
                 this.board.player.score += 1;
-                console.log('score: ' + this.board.player.score);
+                console.log("score: " + this.board.player.score);
                 if (this.minesNearby === 0) {
                     this.clearNearbyCells();
                 } else {
@@ -92,18 +77,12 @@ export class Cell {
                 }
             }
         }
-        if (this._DEBUG) {
-            console.debug(this);
-        }
     }
 
     private processRightClick(): void {
         /* process a right click event on this cell */
         if (!this.board.completed && !this.clear) {
             this.flag = !this.flag;
-            if (this._DEBUG) {
-                console.log("flag: " + this.flag);
-            }
             if (this.flag) {
                 this.element.innerHTML = "<span class=\"text\">&#x1F3F3;&#xFE0F;</span>";
             } else {

@@ -5,7 +5,7 @@
   "main": "index.ts",
   "repository": "github:mikehodgson/minesweeper",
   "scripts": {
-    "test": "mocha --exit --require ts-node/register --require @babel/register --require ignore-styles --require jsdom-global/register --colors 'test/**/*.ts'",
+    "test": "mocha --exit -r ts-node/register -r @babel/register -r ignore-styles -r jsdom-global/register --colors 'test/**/*.ts'",
     "coverage": "nyc npm run test",
     "start": "node_modules/.bin/webpack-dev-server",
     "build": "webpack"
@@ -19,7 +19,7 @@
     "@babel/preset-typescript": "^7.10.4",
     "@babel/register": "^7.8.6",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "@types/chai": "^4.2.13",
+    "@types/chai": "^4.2.14",
     "@types/jsdom": "^16.2.4",
     "@types/mocha": "^7.0.2",
     "@types/node": "^13.13.23",

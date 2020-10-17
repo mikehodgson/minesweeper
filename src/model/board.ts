@@ -10,7 +10,6 @@ export class Board {
         this.gridHeight = gridHeight || 24;
         this.completed = false;
         this.cells = [];
-        this.player.score = 0;
 
         for (let r: number = 1; r <= gridHeight; r += 1) {
             for (let c: number = 1; c <= gridWidth; c += 1) {

@@ -1,5 +1,5 @@
-import { Board } from './board';
-import { Player } from './player';
+import { Board } from "./board";
+import { Player } from "./player";
 
 export class Game {
     public board: Board;
@@ -10,8 +10,5 @@ export class Game {
         this.player = new Player(this.playerName);
         this.board = new Board(this.gridWidth, this.gridHeight, this.player);
         this.board.draw();
-        if (this._DEBUG) {
-            console.debug(this.board);
-        }
     }
 }
