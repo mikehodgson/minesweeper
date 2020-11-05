@@ -9,7 +9,7 @@ module.exports = {
     mode: "production",
     resolve: {
         symlinks: false,
-        extensions: ['.ts', '.js', '.json']
+        extensions: [".ts", ".js", ".json"]
     },
     entry: {
         app: "./src/index.ts"
